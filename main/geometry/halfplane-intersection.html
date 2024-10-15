@@ -6661,6 +6661,12 @@ Describe the issue of this article in detail.
   
     
   
+
+  
+  
+  
+    
+  
     
   
     
@@ -6701,6 +6707,10 @@ Describe the issue of this article in detail.
   
 
 
+
+  
+  
+  
 
   
   
@@ -6729,7 +6739,7 @@ Describe the issue of this article in detail.
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
 
   Last update:
-  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">June 8, 2022</span>&emsp;
+  <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 15, 2024</span>&emsp;
 
 <!-- Tags -->
 
@@ -6793,17 +6803,15 @@ To sum up, the full algorithm will roughly look as follows:</p>
 <h3 id="direct-implementation">Direct implementation<a class="headerlink" href="#direct-implementation" title="Permanent link">&para;</a></h3>
 <p>Here is a sample, direct implementation of the algorithm, with comments explaining most parts: </p>
 <p>Simple point/vector and half-plane structs:</p>
-<div class="highlight"><pre><span></span><code><span class="c1">// Redefine epsilon and infinity as necessary. Be mindful of precision errors.</span>
-<span class="k">const</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">eps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e-9</span><span class="p">,</span><span class="w"> </span><span class="n">inf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e9</span><span class="p">;</span><span class="w"> </span>
+<div class="highlight"><pre><span></span><code><span class="k">const</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">eps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e-8</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">inf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e6</span><span class="p">;</span><span class="w"> </span><span class="c1">// Modify as needed based on input scale.</span>
 
 <span class="c1">// Basic point/vector struct.</span>
-<span class="k">struct</span><span class="w"> </span><span class="nc">Point</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
-
+<span class="k">struct</span><span class="w"> </span><span class="nc">Point</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
 <span class="w">    </span><span class="k">explicit</span><span class="w"> </span><span class="n">Point</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="w"> </span><span class="n">y</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
 
-<span class="w">    </span><span class="c1">// Addition, substraction, multiply by constant, dot product, cross product.</span>
-
+<span class="w">    </span><span class="c1">// Addition, subtraction, multiply by constant, dot product, cross product.</span>
 <span class="w">    </span><span class="k">friend</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Point</span><span class="o">&amp;</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Point</span><span class="o">&amp;</span><span class="w"> </span><span class="n">q</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Point</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">q</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">q</span><span class="p">.</span><span class="n">y</span><span class="p">);</span><span class="w"> </span>
 <span class="w">    </span><span class="p">}</span>
@@ -6814,7 +6822,7 @@ To sum up, the full algorithm will roughly look as follows:</p>
 
 <span class="w">    </span><span class="k">friend</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Point</span><span class="o">&amp;</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">double</span><span class="o">&amp;</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Point</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">k</span><span class="p">);</span><span class="w"> </span>
-<span class="w">    </span><span class="p">}</span><span class="w"> </span>
+<span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="k">friend</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">dot</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Point</span><span class="o">&amp;</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Point</span><span class="o">&amp;</span><span class="w"> </span><span class="n">q</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">q</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">q</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
@@ -6826,10 +6834,8 @@ To sum up, the full algorithm will roughly look as follows:</p>
 <span class="p">};</span>
 
 <span class="c1">// Basic half-plane struct.</span>
-<span class="k">struct</span><span class="w"> </span><span class="nc">Halfplane</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
-
-<span class="w">    </span><span class="c1">// &#39;p&#39; is a passing point of the line and &#39;pq&#39; is the direction vector of the line.</span>
-<span class="w">    </span><span class="n">Point</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">pq</span><span class="p">;</span><span class="w"> </span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Halfplane</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Point</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">pq</span><span class="p">;</span><span class="w"> </span><span class="c1">// &#39;p&#39; is a passing point of the line, &#39;pq&#39; is the direction vector of the line.</span>
 <span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">angle</span><span class="p">;</span>
 
 <span class="w">    </span><span class="n">Halfplane</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
@@ -6843,10 +6849,10 @@ To sum up, the full algorithm will roughly look as follows:</p>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">cross</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="o">-</span><span class="n">eps</span><span class="p">;</span><span class="w"> </span>
 <span class="w">    </span><span class="p">}</span>
 
-<span class="w">    </span><span class="c1">// Comparator for sorting. </span>
+<span class="w">    </span><span class="c1">// Comparator for sorting.</span>
 <span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Halfplane</span><span class="o">&amp;</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">angle</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">angle</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span><span class="w"> </span>
+<span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="c1">// Intersection point of the lines of two half-planes. It is assumed they&#39;re never parallel.</span>
 <span class="w">    </span><span class="k">friend</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="n">inter</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Halfplane</span><span class="o">&amp;</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Halfplane</span><span class="o">&amp;</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -6854,9 +6860,27 @@ To sum up, the full algorithm will roughly look as follows:</p>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">pq</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">alpha</span><span class="p">);</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">};</span>
+
+<span class="c1">// Function to calculate a dynamic bounding box based on input points.</span>
+<span class="n">Point</span><span class="w"> </span><span class="nf">calculate_bounding_box</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Point</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">points</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">maxX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">inf</span><span class="p">,</span><span class="w"> </span><span class="n">maxY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">inf</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">minX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inf</span><span class="p">,</span><span class="w"> </span><span class="n">minY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inf</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Traverse all points to find the bounding box</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Point</span><span class="o">&amp;</span><span class="w"> </span><span class="n">pt</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">points</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pt</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">maxX</span><span class="p">)</span><span class="w"> </span><span class="n">maxX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pt</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">minX</span><span class="p">)</span><span class="w"> </span><span class="n">minX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pt</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">maxY</span><span class="p">)</span><span class="w"> </span><span class="n">maxY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pt</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">minY</span><span class="p">)</span><span class="w"> </span><span class="n">minY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pt</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Use the most extreme points to define the bounding box</span>
+<span class="w">    </span><span class="n">Point</span><span class="w"> </span><span class="n">bbox</span><span class="p">((</span><span class="n">maxX</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">minX</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">maxY</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">minY</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w">  </span><span class="c1">// Making the box larger for stability</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">bbox</span><span class="p">;</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>Algorithm: </p>
-<div class="highlight"><pre><span></span><code><span class="c1">// Actual algorithm</span>
+<div class="highlight"><pre><span></span><code><span class="c1">// Actual Algorithm</span>
 <span class="n">vector</span><span class="o">&lt;</span><span class="n">Point</span><span class="o">&gt;</span><span class="w"> </span><span class="n">hp_intersect</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Halfplane</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">H</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
 
 <span class="w">    </span><span class="n">Point</span><span class="w"> </span><span class="n">box</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// Bounding box in CCW order</span>
@@ -6866,7 +6890,7 @@ To sum up, the full algorithm will roughly look as follows:</p>
 <span class="w">        </span><span class="n">Point</span><span class="p">(</span><span class="n">inf</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">inf</span><span class="p">)</span><span class="w"> </span>
 <span class="w">    </span><span class="p">};</span>
 
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="mi">4</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Add bounding box half-planes.</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Add bounding box half-planes.</span>
 <span class="w">        </span><span class="n">Halfplane</span><span class="w"> </span><span class="nf">aux</span><span class="p">(</span><span class="n">box</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">box</span><span class="p">[(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">4</span><span class="p">]);</span>
 <span class="w">        </span><span class="n">H</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">aux</span><span class="p">);</span>
 <span class="w">    </span><span class="p">}</span>
@@ -6875,27 +6899,28 @@ To sum up, the full algorithm will roughly look as follows:</p>
 <span class="w">    </span><span class="n">sort</span><span class="p">(</span><span class="n">H</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">H</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
 <span class="w">    </span><span class="n">deque</span><span class="o">&lt;</span><span class="n">Halfplane</span><span class="o">&gt;</span><span class="w"> </span><span class="n">dq</span><span class="p">;</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
 <span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="kt">int</span><span class="p">(</span><span class="n">H</span><span class="p">.</span><span class="n">size</span><span class="p">());</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 
-<span class="w">        </span><span class="c1">// Remove from the back of the deque while last half-plane is redundant</span>
+<span class="w">        </span><span class="c1">// Remove from the back of the deque while the last half-plane is redundant</span>
 <span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">len</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">H</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">out</span><span class="p">(</span><span class="n">inter</span><span class="p">(</span><span class="n">dq</span><span class="p">[</span><span class="n">len</span><span class="mi">-1</span><span class="p">],</span><span class="w"> </span><span class="n">dq</span><span class="p">[</span><span class="n">len</span><span class="mi">-2</span><span class="p">])))</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">dq</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
 <span class="w">            </span><span class="o">--</span><span class="n">len</span><span class="p">;</span>
 <span class="w">        </span><span class="p">}</span>
 
-<span class="w">        </span><span class="c1">// Remove from the front of the deque while first half-plane is redundant</span>
+<span class="w">        </span><span class="c1">// Remove from the front of the deque while the first half-plane is redundant</span>
 <span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">len</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">H</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">out</span><span class="p">(</span><span class="n">inter</span><span class="p">(</span><span class="n">dq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">dq</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">dq</span><span class="p">.</span><span class="n">pop_front</span><span class="p">();</span>
 <span class="w">            </span><span class="o">--</span><span class="n">len</span><span class="p">;</span>
 <span class="w">        </span><span class="p">}</span>
 
-<span class="w">        </span><span class="c1">// Special case check: Parallel half-planes</span>
+<span class="w">        </span><span class="c1">// Special case: Check for parallel half-planes</span>
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">len</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">fabsl</span><span class="p">(</span><span class="n">cross</span><span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">pq</span><span class="p">,</span><span class="w"> </span><span class="n">dq</span><span class="p">[</span><span class="n">len</span><span class="mi">-1</span><span class="p">].</span><span class="n">pq</span><span class="p">))</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">eps</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="c1">// Opposite parallel half-planes that ended up checked against each other.</span>
+<span class="w">            </span><span class="c1">// Opposite parallel half-planes</span>
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">pq</span><span class="p">,</span><span class="w"> </span><span class="n">dq</span><span class="p">[</span><span class="n">len</span><span class="mi">-1</span><span class="p">].</span><span class="n">pq</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.0</span><span class="p">)</span>
 <span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Point</span><span class="o">&gt;</span><span class="p">();</span>
 
-<span class="w">            </span><span class="c1">// Same direction half-plane: keep only the leftmost half-plane.</span>
+<span class="w">            </span><span class="c1">// Keep only the leftmost half-plane for same direction</span>
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">out</span><span class="p">(</span><span class="n">dq</span><span class="p">[</span><span class="n">len</span><span class="mi">-1</span><span class="p">].</span><span class="n">p</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">dq</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
 <span class="w">                </span><span class="o">--</span><span class="n">len</span><span class="p">;</span>
@@ -6903,12 +6928,12 @@ To sum up, the full algorithm will roughly look as follows:</p>
 <span class="w">            </span><span class="k">else</span><span class="w"> </span><span class="k">continue</span><span class="p">;</span>
 <span class="w">        </span><span class="p">}</span>
 
-<span class="w">        </span><span class="c1">// Add new half-plane</span>
+<span class="w">        </span><span class="c1">// Add the new half-plane</span>
 <span class="w">        </span><span class="n">dq</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">H</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
 <span class="w">        </span><span class="o">++</span><span class="n">len</span><span class="p">;</span>
 <span class="w">    </span><span class="p">}</span>
 
-<span class="w">    </span><span class="c1">// Final cleanup: Check half-planes at the front against the back and vice-versa</span>
+<span class="w">    </span><span class="c1">// Final cleanup: Check half-planes at the front and back</span>
 <span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">len</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">dq</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">out</span><span class="p">(</span><span class="n">inter</span><span class="p">(</span><span class="n">dq</span><span class="p">[</span><span class="n">len</span><span class="mi">-1</span><span class="p">],</span><span class="w"> </span><span class="n">dq</span><span class="p">[</span><span class="n">len</span><span class="mi">-2</span><span class="p">])))</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">dq</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
 <span class="w">        </span><span class="o">--</span><span class="n">len</span><span class="p">;</span>
@@ -6919,12 +6944,12 @@ To sum up, the full algorithm will roughly look as follows:</p>
 <span class="w">        </span><span class="o">--</span><span class="n">len</span><span class="p">;</span>
 <span class="w">    </span><span class="p">}</span>
 
-<span class="w">    </span><span class="c1">// Report empty intersection if necessary</span>
+<span class="w">    </span><span class="c1">// If less than 3 planes, report empty intersection</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">len</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Point</span><span class="o">&gt;</span><span class="p">();</span>
 
-<span class="w">    </span><span class="c1">// Reconstruct the convex polygon from the remaining half-planes.</span>
+<span class="w">    </span><span class="c1">// Reconstruct the convex polygon from the remaining half-planes</span>
 <span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Point</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ret</span><span class="p">(</span><span class="n">len</span><span class="p">);</span>
-<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">len</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">len</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">ret</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inter</span><span class="p">(</span><span class="n">dq</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">dq</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]);</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">    </span><span class="n">ret</span><span class="p">.</span><span class="n">back</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inter</span><span class="p">(</span><span class="n">dq</span><span class="p">[</span><span class="n">len</span><span class="mi">-1</span><span class="p">],</span><span class="w"> </span><span class="n">dq</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
@@ -6997,7 +7022,7 @@ Given a set <span class="arithmatex">$p$</span> of points <span class="arithmate
 
 <ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
   <span class="contributors-text">Contributors:</span>
-  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/oscarburga" title="oscarburga" data-bi-name="contributorprofile" target="_blank">oscarburga</a> (95.15%)</li><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (2.27%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (1.62%)</li><li><a href="https://github.com/Kakalinn" title="Kakalinn" data-bi-name="contributorprofile" target="_blank">Kakalinn</a> (0.65%)</li><li><a href="https://github.com/LUTLJS" title="LUTLJS" data-bi-name="contributorprofile" target="_blank">LUTLJS</a> (0.32%)</li></ul>
+  <ul class="contributors" data-bi-name="contributors"><li><a href="https://github.com/oscarburga" title="oscarburga" data-bi-name="contributorprofile" target="_blank">oscarburga</a> (79.08%)</li><li><a href="https://github.com/Harsh-Mathur-1503" title="Harsh-Mathur-1503" data-bi-name="contributorprofile" target="_blank">Harsh-Mathur-1503</a> (16.31%)</li><li><a href="https://github.com/jakobkogler" title="jakobkogler" data-bi-name="contributorprofile" target="_blank">jakobkogler</a> (2.15%)</li><li><a href="https://github.com/adamant-pwn" title="adamant-pwn" data-bi-name="contributorprofile" target="_blank">adamant-pwn</a> (1.54%)</li><li><a href="https://github.com/Kakalinn" title="Kakalinn" data-bi-name="contributorprofile" target="_blank">Kakalinn</a> (0.62%)</li><li><a href="https://github.com/LUTLJS" title="LUTLJS" data-bi-name="contributorprofile" target="_blank">LUTLJS</a> (0.31%)</li></ul>
 </ul>
                 
               </article>
